@@ -1,0 +1,29 @@
+---
+title: "Gapminder-Exploration"
+output: github_document
+---
+```{r}
+options(warn = -1) # supresses warnings
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(gapminder))
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+
+## Factor Management
+
+## File I/O
+
+## Visualization Design
+
+## Writing Figures to a File
+
