@@ -107,7 +107,7 @@ plot <- ggplot(df, aes(lifeExp, gdpPercap)) +
   xlab("Life Expectancy") +
   ylab("GDP per capita") +
   ggtitle("GDP per capita versus Life Expectancy")
-ggsave("GDP-LifeExp-plot.png", plot, width = 11, height = 8, dpi = "retina") # save plot to file
+ggsave("GDP-LifeExp-plot.png", plot, width = 9, height = 9, dpi = "retina") # save plot to file
 ```
 
 ![Plot](https://github.com/STAT545-UBC-students/hw05-curtis77/blob/master/GDP-LifeExp-plot.png)
