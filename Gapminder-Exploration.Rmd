@@ -28,12 +28,13 @@ gapminder %>%
 ```
 
 Now apply filtering and dropping of levels.
-```{r results = 'asis'}
+```{r}
 gapminder %>%
   filter(continent != "Oceania") %>% # remove rows with continent equal to Oceania
   droplevels() %>%
   str()
 ```
+
 The country factor went from 142 levels to 140 levels, the continent factor went from 5 levels to 4 levels (since we drop Oceania), and the number of rows went from 1704 to 1680.
 
 ## File I/O
