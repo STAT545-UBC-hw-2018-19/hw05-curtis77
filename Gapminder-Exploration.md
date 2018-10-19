@@ -110,4 +110,4 @@ plot <- ggplot(df, aes(lifeExp, gdpPercap)) +
 ggsave("GDP-LifeExp-plot.png", plot, width = 11, height = 8, dpi = "retina") # save plot to file
 ```
 
-![Plot](/home/curtis/Documents/hw05-curtis77/GDP-LifeExp-plot.png)
+![Plot](https://github.com/STAT545-UBC-students/hw05-curtis77/blob/master/GDP-LifeExp-plot.png)
