@@ -16,6 +16,7 @@ suppressPackageStartupMessages(library(tidyverse))
 
 ``` r
 suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(plotly))
 ```
 
 ``` r
@@ -23,21 +24,6 @@ library(gapminder)
 library(tidyverse)
 library(plotly)
 ```
-
-    ## 
-    ## Attaching package: 'plotly'
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     last_plot
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     filter
-
-    ## The following object is masked from 'package:graphics':
-    ## 
-    ##     layout
 
 Factor Management
 -----------------
@@ -121,7 +107,7 @@ knitr :: kable(df) # print table
 | United Kingdom         |  19380.473|
 
 ``` r
-ggplot(df, aes(avgGDP, country)) +
+ggplot(df, aes(avgGDP, country, colour = avgGDP)) +
    geom_point() + 
    ggtitle("Country versus Average GDP per capita across all years") +
    xlab("Average GDP per capita") + 
@@ -139,7 +125,7 @@ df <- gapminder %>%
    summarize(avgGDP = mean(gdpPercap)) %>%
    mutate(country = fct_reorder(country, avgGDP)) # this line reorders the country factor by average GDP per capita
 
-ggplot(df, aes(avgGDP, country)) +
+ggplot(df, aes(avgGDP, country, colour = avgGDP)) +
    geom_point() + 
    ggtitle("Country versus Average GDP per capita across all years") +
    xlab("Average GDP per capita") + 
@@ -159,7 +145,7 @@ First lets create our dataset, and view the continent factor, along with its lev
 gapminderExpMax <- gapminder %>%
   group_by(continent) %>%
   summarize(maxLifeExp = max(lifeExp)) %>%
-  mutate(continent = fct_reorder(continent, maxLifeExp, .desc = TRUE))
+  mutate(continent = fct_reorder(continent, maxLifeExp, .desc = TRUE)) # reorder continent factor by max life expectancy
 
 gapminderExpMax %>%
   str()
@@ -245,12 +231,16 @@ df <- gapminder %>%
   
 myPlot <- ggplot(df, aes(continent, pop, fill = continent)) +
   geom_violin() +
-  scale_y_log10() +
-  scale_fill_brewer(palette = "Set1") +
+  scale_y_log10() + # scale y axis
+  scale_fill_brewer(palette = "Set1") + # apply colour scheme
   ggtitle("Population Spread Comparison across Continents") +
   ylab("population")  + 
-  theme(axis.text = element_text(size = 12))
+  theme(axis.text = element_text(size = 12)) # change size of axis text
+
+myPlot # render actual plot
 ```
+
+![](Gapminder-Exploration_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 We now convert the graph above to a plotly plot. Note that to actually interact with the plot, one must do it in rstudio, and not through github. I've commented out the code that produces the plotly plot below, however feel free to uncomment it and run the code to interact with the plot.
 
