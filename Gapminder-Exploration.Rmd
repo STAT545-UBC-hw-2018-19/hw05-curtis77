@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(gapminder)
 library(tidyverse)
-# library(plotly)
+library(plotly)
 ```
 
 ## Factor Management
@@ -39,7 +39,7 @@ gapminder %>%
 
 The country factor went from 142 levels to 140 levels, the continent factor went from 5 levels to 4 levels (since we drop Oceania), and the number of rows went from 1704 to 1680.
 
-Now we will experiment with reordering a factor. We first create a dataset where we filter out all values that don't have country equal to Europe. We then group by country, and compute the mean GDP per capita across all years for each country. As you can see from the table and plots, the data is currently sorted alphabetically by country.
+Now we will experiment with reordering a factor. We first create a dataset where we filter out all values that don't have continent equal to Europe. We then group by country, and compute the mean GDP per capita across all years for each country. As you can see from the table and plots, the data is currently sorted alphabetically by country.
 ```{r results = 'asis'}
 df <- gapminder %>%
    filter(continent == 'Europe') %>%
@@ -55,14 +55,14 @@ ggplot(df, aes(avgGDP, country)) +
    ylab("Country")
 ```
 
-Now I will now reorder the country factor by mean GDP per capita, and produce a new plot and table.
+Now I will now reorder the country factor by mean GDP per capita, and produce a new plot.
 ```{r results = 'asis'}
 df <- gapminder %>%
    filter(continent == 'Europe') %>%
    group_by(country) %>%
    summarize(avgGDP = mean(gdpPercap)) %>%
    mutate(country = fct_reorder(country, avgGDP)) # this line reorders the country factor by average GDP per capita
-knitr :: kable(df) # print table
+
 ggplot(df, aes(avgGDP, country)) +
    geom_point() + 
    ggtitle("Country versus Average GDP per capita across all years") +
@@ -97,7 +97,7 @@ modifiedDataset %>%
 
 As we can see, the new dataset no longer has continent as a factor, and the ordering of the continents also changed (the ordering is now alphabetical, rather than in descending order by max life expectancy) aftering writing and then reading the dataset back in.
 
-We now try using RDS functions instead, using the same dataset as used for the csv funcations. We will first use the saveRDS function to save the data to a file, and then we read the data back in using readRDS function. First let's see the ordering of the continent factor.
+We now try using RDS functions instead, using the same dataset as used for the csv functions. We will first use the saveRDS function to save the data to a file, and then we read the data back in using readRDS function. First let's see the ordering of the continent factor.
 
 First view the continent factor, along with its level ordering.
 ```{r}
@@ -119,31 +119,31 @@ We can see that by using the RDS functions, we were able to preserve all factors
 
 ## Visualization Design
 
-I first filter the dataset, removing all rows with year not equal to 2007, or continent equal to Oceania. I then created a violin plot of the populations versus each continent in the year 2007. I added a colour scheme, as we learned in class. I also changed the size of the axis text, using "theme."
+I first filter the dataset, removing all rows with year not equal to 2007, along with removing any rows with continent equal to Oceania. I then created a violin plot, showcasing the spread of populations in various continents in 2007. I added a colour scheme, as we learned in class. I also changed the size of the axis text, using "theme."
 ```{r}
 df <- gapminder %>%
   filter(year == 2007 & continent != 'Oceania') 
   
-ggplot(df, aes(continent, pop, fill = continent)) +
+myPlot <- ggplot(df, aes(continent, pop, fill = continent)) +
   geom_violin() +
   scale_y_log10() +
   scale_fill_brewer(palette = "Set1") +
   ggtitle("Population Spread Comparison across Continents") +
   ylab("population")  + 
   theme(axis.text = element_text(size = 12))
-  
 ```
 
 We now convert the graph above to a plotly plot,
 ```{r}
-#ggplotly(myPlot) 
+ggplotly(myPlot)  %>%
+  htmlwidgets::saveWidget("Plotly-Plot")
 ```
 
 In theory, using plotly, I would be able to hover over the plot and actually interact with it, which is not possible using ggplot.
 
 ## Writing Figures to a File
 
-In the next part, we again use the gapminder dataset. I first filter out all rows that don't have year 2007. I then create a scatterplot of life expectancy versus GDP per capta. The final step was saving the plot to a file, and then using the markdown syntax to render the saved plot in my markdown document. I play around with a few parameters of ggsave.
+In the next part, we again use the gapminder dataset. I first filter out all rows that don't have year 2007. I then create a scatterplot of life expectancy versus GDP per capita. The final step was saving the plot to a file, and then using the markdown syntax to render the saved plot in my markdown document. I play around with a few parameters of ggsave, such as making the plot larger.
 ```{r}
 df <- gapminder %>%
   filter(year == 2007) # keep only the rows with year == 2007
