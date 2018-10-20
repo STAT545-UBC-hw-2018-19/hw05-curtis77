@@ -134,9 +134,9 @@ myPlot <- ggplot(df, aes(continent, pop, fill = continent)) +
   theme(axis.text = element_text(size = 12))
 ```
 
-We now convert the graph above to a plotly plot. Note that to actually interact with the plot, one must do it in rstudio, and not through github.
+We now convert the graph above to a plotly plot. Note that to actually interact with the plot, one must do it in rstudio, and not through github. I've commented out the code that produces the plotly plot below, however feel free to uncomment it and run the code to interact with the plot.
 ```{r}
-ggplotly(myPlot)  
+# ggplotly(myPlot)  
 ```
 
 Using plotly, I am able to hover over the plot and actually interact with it, which is not possible using ggplot. Mousing over the plot allows you to see data that isn't obvious by just looking at the plot.
