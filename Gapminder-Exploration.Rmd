@@ -1,5 +1,6 @@
 ---
 title: "Gapminder-Exploration"
+author: Curtis Fox
 output: 
   github_document: 
      toc: true
